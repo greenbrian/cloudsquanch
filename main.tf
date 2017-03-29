@@ -65,7 +65,7 @@ resource "azurerm_virtual_machine" "cloudsquanch" {
   storage_os_disk {
     name          = "myosdisk1"
     vhd_uri       = "${azurerm_storage_account.cloudsquanch.primary_blob_endpoint}${azurerm_storage_container.cloudsquanch.name}/myosdisk1.vhd"
-    image_uri     = "${data.atlas_artifact.custom_image.Azure.ResourceManagement.VMImage}"
+    image_uri     = "${data.atlas_artifact.custom_image.file_url}"
     os_type       = "linux"
     caching       = "ReadWrite"
     create_option = "FromImage"
