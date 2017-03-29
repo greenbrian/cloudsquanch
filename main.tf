@@ -51,7 +51,7 @@ resource "azurerm_network_interface" "cloudsquanch" {
 
 
 resource "azurerm_virtual_machine" "cloudsquanch" {
-  name                  = "acctvm"
+  name                  = "cloudsquanch_vm"
   location              = "centralus"
   resource_group_name   = "${azurerm_resource_group.cloudsquanch.name}"
   network_interface_ids = ["${azurerm_network_interface.cloudsquanch.id}"]
@@ -60,7 +60,7 @@ resource "azurerm_virtual_machine" "cloudsquanch" {
   storage_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+    sku       = "16.04.0-LTS"
     version   = "latest"
   }
 
