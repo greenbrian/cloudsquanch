@@ -1,7 +1,7 @@
 resource "azurerm_storage_account" "cloudsquanch" {
   name                = "${random_id.storage_account.keepers.environment_name}${random_id.storage_account.hex}"
   resource_group_name = "${azurerm_resource_group.cloudsquanch.name}"
-  location            = "westus"
+  location            = "centralus"
   account_type        = "Standard_LRS"
 
   tags {
