@@ -56,6 +56,8 @@ resource "azurerm_network_interface" "cloudsquanch" {
 #  build = "latest"
 #}
 
+
+
 resource "azurerm_virtual_machine" "cloudsquanch" {
   name                  = "cloudsquanch_vm"
   location              = "centralus"
@@ -66,7 +68,7 @@ resource "azurerm_virtual_machine" "cloudsquanch" {
   storage_os_disk {
     name          = "myosdisk1"
     vhd_uri       = "${azurerm_storage_account.cloudsquanch.primary_blob_endpoint}${azurerm_storage_container.cloudsquanch.name}/myosdisk1.vhd"
-    image_uri     = "https://bgreencustomimages.blob.core.windows.net/system/Microsoft.Compute/Images/custom-images/packer-osDisk.4c21aa7b-9242-4100-81d7-f28edb33b211.vhd"
+    image_uri     = "${azurerm_storage_blob.cloudsquanch.name}
     os_type       = "linux"
     caching       = "ReadWrite"
     create_option = "FromImage"
