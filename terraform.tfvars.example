@@ -1,0 +1,4 @@
+client_id = "my_client_id_goes_here"
+client_secret = "client_secret_goes_here_dont_commit_to_github"
+tenant_id = "tenant_id_goes_here"
+subscription_id = "subscription_id_string-goes_here
