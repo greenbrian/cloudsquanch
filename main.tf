@@ -50,14 +50,6 @@ resource "azurerm_network_interface" "cloudsquanch" {
 }
 
 
-#data "atlas_artifact" "custom_image" {
-#  name  = "bgreen/cloudsquanch"
-#  type  = "azure.image"
-#  build = "latest"
-#}
-
-
-
 resource "azurerm_virtual_machine" "cloudsquanch" {
   name                  = "cloudsquanch_vm"
   location              = "centralus"
@@ -65,11 +57,16 @@ resource "azurerm_virtual_machine" "cloudsquanch" {
   network_interface_ids = ["${azurerm_network_interface.cloudsquanch.id}"]
   vm_size               = "Standard_A0"
 
+  storage_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "16.04.0-LTS"
+    version   = "latest"
+  }
+
   storage_os_disk {
     name          = "myosdisk1"
     vhd_uri       = "${azurerm_storage_account.cloudsquanch.primary_blob_endpoint}${azurerm_storage_container.cloudsquanch.name}/myosdisk1.vhd"
-    image_uri     = "${azurerm_storage_blob.cloudsquanch.name}"
-    os_type       = "linux"
     caching       = "ReadWrite"
     create_option = "FromImage"
   }
