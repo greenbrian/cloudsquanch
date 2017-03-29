@@ -40,4 +40,15 @@
         "inline_shebang": "/bin/sh -x",
         "type": "shell"
   }]
+  "post-processors": [
+    {
+      "type": "atlas",
+      "only": ["consul-vault"],
+      "artifact": "{{user `atlas_username`}}/cloudsquanch",
+      "artifact_type": "azure.image",
+      "metadata": {
+        "created_at": "{{timestamp}}"
+      }
+    }
+  ]
 }
