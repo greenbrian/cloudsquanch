@@ -14,7 +14,7 @@
         "client_secret": "{{user `azure_client_secret`}}",
 
         "resource_group_name": "cloudsquanch_rg",
-        "storage_account": "vhds",
+        "storage_account": "cloudsquanchc53e67",
 
         "capture_container_name": "custom-images",
         "capture_name_prefix": "packer",
