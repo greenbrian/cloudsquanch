@@ -4,5 +4,5 @@ variable "client_secret" {}
 variable "tenant_id" {}
 
 output "azure_ubuntu_demo_rg" {
-  value = "${azure_rm_resource_group.cloudsquanch.name}"
+  value = "${azurerm_resource_group.cloudsquanch.name}"
 }
