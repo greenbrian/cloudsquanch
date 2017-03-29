@@ -2,7 +2,8 @@
         "azure_subscription_id": "{{env `AZURE_SUBSCRIPTION_ID`}}",
         "azure_tenant_id": "{{env `AZURE_TENANT_ID`}}",
         "azure_client_id": "{{env `AZURE_CLIENT_ID`}}",
-        "azure_client_secret":"{{env `AZURE_CLIENT_SECRET`}}"
+        "azure_client_secret":"{{env `AZURE_CLIENT_SECRET`}}",
+        "atlas_username":"{{ env `ATLAS_USERNAME`}}",
     },
     "builders": [{
         "type": "azure-arm",
@@ -43,7 +44,6 @@
   "post-processors": [
     {
       "type": "atlas",
-      "only": ["consul-vault"],
       "artifact": "{{user `atlas_username`}}/cloudsquanch",
       "artifact_type": "azure.image",
       "metadata": {
