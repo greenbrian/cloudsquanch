@@ -4,6 +4,7 @@
         "azure_client_id": "{{env `AZURE_CLIENT_ID`}}",
         "azure_client_secret":"{{env `AZURE_CLIENT_SECRET`}}",
         "atlas_username":"{{ env `ATLAS_USERNAME`}}",
+        "pubkey": "{{env `BG_PUB_KEY`}}",
     },
     "builders": [{
         "type": "azure-arm",
@@ -30,16 +31,38 @@
         "location": "centralus",
         "vm_size": "Standard_DS1_V2"
     }],
-    "provisioners": [{
-        "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
-        "inline": [
-          "apt-get update",
-          "apt-get upgrade -y",
+    "provisioners": [
+  {
+    "type": "shell",
+      "execute_command": "echo 'packer' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+      "inline": [
+         "sudo useradd -m {{user `atlas_username`}} -s /bin/bash",
+         "sudo mkdir -p /home/{{user `atlas_username`}}/.ssh/",
+         "sudo echo \"{{user `atlas_username`}} ALL=(root) NOPASSWD: ALL\" >> /etc/sudoers.d/{{user `atlas_username`}}"
+          ]
+  },
+  {
+    "type": "shell",
+      "execute_command": "echo 'packer' | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+      "inline": [
+         "echo {{user `pubkey`}} > /tmp/authorized_keys",
+         "sudo mv /tmp/authorized_keys /home/{{user `atlas_username`}}/.ssh/authorized_keys",
+         "sudo chown -R {{user `atlas_username`}}:{{user `atlas_username`}} /home/{{user `atlas_username`}}/.ssh/",
+         "sudo chmod 700 /home/{{user `atlas_username`}}/.ssh/",
+         "sudo chmod 600 /home/{{user `atlas_username`}}/.ssh/authorized_keys",
+         "sudo mv /tmp/files /root"
+          ]
+  },
+  {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "inline": [
+        "apt-get update",
+        "apt-get upgrade -y",
 
-          "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"
-        ],
-        "inline_shebang": "/bin/sh -x",
-        "type": "shell"
+        "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"
+      ],
+      "inline_shebang": "/bin/sh -x",
+      "type": "shell"
   }],
   "post-processors": [
     {
