@@ -6,21 +6,28 @@ provider "azurerm" {
   tenant_id       = "${var.tenant_id}"
 }
 
-resource "azurerm_resource_group" "cloudsquanch" {
-  name     = "cloudsquanch_rg"
-  location = "centralus"
+provider "atlas" {
+    token = "${var.atlas_token}"
 }
+
+data "terraform_remote_state" "azure_ubuntu_demo_rg" {
+  backend = "atlas"
+  config {
+    name = "bgreen/azure-ubuntu-demo-rg"
+  }
+}
+
 
 resource "azurerm_virtual_network" "cloudsquanch" {
   name                = "cloudsquanch_vnet"
   address_space       = ["10.0.0.0/16"]
   location            = "centralus"
-  resource_group_name = "${azurerm_resource_group.cloudsquanch.name}"
+  resource_group_name = "${data.terraform_remote_state.azure_ubuntu_demo_rg.azure_ubuntu_demo_rg}"
 }
 
 resource "azurerm_subnet" "cloudsquanch" {
   name                 = "cloudsquanch_subnet"
-  resource_group_name  = "${azurerm_resource_group.cloudsquanch.name}"
+  resource_group_name  = "${data.terraform_remote_state.azure_ubuntu_demo_rg.azure_ubuntu_demo_rg}"
   virtual_network_name = "${azurerm_virtual_network.cloudsquanch.name}"
   address_prefix       = "10.0.2.0/24"
 }
@@ -28,7 +35,7 @@ resource "azurerm_subnet" "cloudsquanch" {
 resource "azurerm_public_ip" "cloudsquanch" {
   name                         = "cloudsquanch_pubip"
   location                     = "centralus"
-  resource_group_name          = "${azurerm_resource_group.cloudsquanch.name}"
+  resource_group_name          = "${data.terraform_remote_state.azure_ubuntu_demo_rg.azure_ubuntu_demo_rg}"
   public_ip_address_allocation = "static"
 
   tags {
@@ -39,7 +46,7 @@ resource "azurerm_public_ip" "cloudsquanch" {
 resource "azurerm_network_interface" "cloudsquanch" {
   name                = "cloudsquanch_nic"
   location            = "centralus"
-  resource_group_name = "${azurerm_resource_group.cloudsquanch.name}"
+  resource_group_name = "${data.terraform_remote_state.azure_ubuntu_demo_rg.azure_ubuntu_demo_rg}"
 
   ip_configuration {
     name                          = "testconfiguration1"
@@ -53,7 +60,7 @@ resource "azurerm_network_interface" "cloudsquanch" {
 resource "azurerm_virtual_machine" "cloudsquanch" {
   name                  = "cloudsquanch_vm"
   location              = "centralus"
-  resource_group_name   = "${azurerm_resource_group.cloudsquanch.name}"
+  resource_group_name   = "${data.terraform_remote_state.azure_ubuntu_demo_rg.azure_ubuntu_demo_rg}"
   network_interface_ids = ["${azurerm_network_interface.cloudsquanch.id}"]
   vm_size               = "Standard_A0"
 
