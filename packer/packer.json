@@ -39,7 +39,7 @@
         ],
         "inline_shebang": "/bin/sh -x",
         "type": "shell"
-  }]
+  }],
   "post-processors": [
     {
       "type": "atlas",
