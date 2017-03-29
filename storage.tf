@@ -18,7 +18,7 @@ resource "azurerm_storage_container" "cloudsquanch" {
 
 resource "random_id" "storage_account" {
   keepers = {
-    environment_name = "${replace("${var.environment_name}","/[\\-_]*/","")}"
+    environment_name = "${replace("cloudsquanch","/[\\-_]*/","")}"
   }
 
   byte_length = 3
