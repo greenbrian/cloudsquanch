@@ -4,7 +4,7 @@
         "azure_client_id": "{{env `AZURE_CLIENT_ID`}}",
         "azure_client_secret":"{{env `AZURE_CLIENT_SECRET`}}",
         "atlas_username":"{{ env `ATLAS_USERNAME`}}",
-        "pubkey": "{{env `BG_PUB_KEY`}}",
+        "pubkey": "{{env `BG_PUB_KEY`}}"
     },
     "builders": [{
         "type": "azure-arm",
@@ -63,7 +63,8 @@
       ],
       "inline_shebang": "/bin/sh -x",
       "type": "shell"
-  }],
+  }
+],
   "post-processors": [
     {
       "type": "atlas",
