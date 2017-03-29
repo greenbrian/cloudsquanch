@@ -49,23 +49,6 @@ resource "azurerm_network_interface" "cloudsquanch" {
   }
 }
 
-resource "azurerm_storage_account" "cloudsquanch" {
-  name                = "${var.storage_account_name}"
-  resource_group_name = "${azurerm_resource_group.cloudsquanch.name}"
-  location            = "westus"
-  account_type        = "Standard_LRS"
-
-  tags {
-    environment = "staging"
-  }
-}
-
-resource "azurerm_storage_container" "cloudsquanch" {
-  name                  = "vhds"
-  resource_group_name   = "${azurerm_resource_group.cloudsquanch.name}"
-  storage_account_name  = "${azurerm_storage_account.cloudsquanch.name}"
-  container_access_type = "private"
-}
 
 resource "azurerm_virtual_machine" "cloudsquanch" {
   name                  = "acctvm"
