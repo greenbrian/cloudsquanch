@@ -13,8 +13,8 @@
         "client_id": "{{user `azure_client_id`}}",
         "client_secret": "{{user `azure_client_secret`}}",
 
-        "resource_group_name": "packerimages",
-        "storage_account": "bgreencustomimages",
+        "resource_group_name": "cloudsquanch_rg",
+        "storage_account": "vhds",
 
         "capture_container_name": "custom-images",
         "capture_name_prefix": "packer",
