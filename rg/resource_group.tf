@@ -10,7 +10,3 @@ resource "azurerm_resource_group" "cloudsquanch" {
   name     = "cloudsquanch_rg"
   location = "centralus"
 }
-
-output "azure_ubuntu_demo_rg" {
-  value = "${azure_rm_resource_group.cloudsquanch.name}"
-}
