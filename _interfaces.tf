@@ -6,6 +6,6 @@ variable "admin_username" {}
 variable "admin_password" {}
 variable "storage_account_name" {}
 
-#output "VM_IP" {
-#  value = "${}"
-#}
+output "Cloudsquanch Public IP" {
+  value = "${azurerm_public_ip.cloudsquanch.ip_address}"
+}
